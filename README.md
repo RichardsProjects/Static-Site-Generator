@@ -1,0 +1,1 @@
+This is a custom static site generator I am developing in Java for eventual use with richardsprojects.net. It is released for anyone to access under public domain, but I am not sure how much use it will be as it is mostly going to be hard-coded for my design on Richard's Projects.
