@@ -1,20 +1,31 @@
 package net.richardsprojects.sitegenerator;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class SiteGenerator {
 
 	public File buildFolder;
 	public String formattedNavbar;
-
+	public String mainTemplate;
+	
 	public SiteGenerator() {
 		run();
 	}
 
 	public void run() {
+		// TODO: Write code that clears contents of build folder
+		
 		formattedNavbar = "";
-
+		try {
+			mainTemplate = Utils.loadFileContents("templates" + File.separator + "main.tpl");
+		} catch (Exception e) {
+			System.out.println("[!] Could not load \"templates/main.tpl\"");
+			System.out.println("[!] Exiting...");
+			System.exit(0);
+		}
+		
 		// create build folder if needed
 		buildFolder = new File(Main.projectFolder.toPath().toAbsolutePath()
 				+ File.separator + "build");
@@ -22,7 +33,19 @@ public class SiteGenerator {
 			buildFolder.mkdirs();
 
 		loadNavbarCode();
-		System.out.println(formattedNavbar);
+		
+		// TODO: Remove this test
+		try {
+			Page home = new Page(new File(Main.projectFolder.toPath().toAbsolutePath() + File.separator + "home.page"));
+		
+			PrintWriter pw = new PrintWriter(buildFolder + File.separator + "index.html");
+			pw.print(home.generateHTML(this));
+			pw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// TODO: Write code that copies contents of the resources folder to the builds folder
 	}
 
 	private void loadNavbarCode() {
